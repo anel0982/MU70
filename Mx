@@ -1,0 +1,47 @@
+
+local StarterGui = game:GetService("StarterGui") -- not sure why you used CoreGui
+local bindable = Instance.new("BindableFunction")
+
+function bindable.OnInvoke(response)
+    local Players = game:GetService("Players")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
+
+-- Replace ScreenGui values with your own
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 1, 0)
+textLabel.BackgroundColor3 = Color3.fromRGB(0, 20, 40)
+textLabel.Font = Enum.Font.GothamMedium
+textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
+textLabel.Text = "Loading…đợi tới 100%"
+textLabel.TextSize = 30
+textLabel.Parent = screenGui
+
+-- Remove the default loading screen
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+
+task.wait(15)  -- Force screen to appear for a minimum number of seconds
+
+if not game:IsLoaded() then
+ game.Loaded:Wait()
+end
+
+screenGui:Destroy()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/markxd07/Luxury-Free/main/Auto_Kaitun.lua"))()
+end
+
+StarterGui:SetCore("SendNotification", {
+	Title = "Bật Script?",
+	Text = "Bạn Muốn bật script ko?",
+	Duration = 500,
+	Callback = bindable,
+	Button1 = "Yes",
+	Button2 = "No"
+})
+
